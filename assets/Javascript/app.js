@@ -65,25 +65,31 @@
     	var train = childSnapshot.val().train;
     	var destination = childSnapshot.val().destination;
     	var firstTrainTime = childSnapshot.val().firstTrainTime
-    	var frequency = childSnapshot.val().frequency;
+    	var frequency = parseInt(childSnapshot.val().frequency);
       
       
 
       // Log the value of the various properties
       console.log(childSnapshot.val().train);
       console.log(childSnapshot.val().destination);
-      console.log(childSnapshot.val().frequency);
+      console.log("Frequency: " + childSnapshot.val().frequency);
 
       //calculating next train time
       var startTime = moment.unix(firstTrainTime).format("HH:mm");
       console.log("First Train is at " + startTime);
-      var firstTimeConverted = moment(firstTrainTime, "hh:mm")
-      var diffTime = moment().diff(moment(firstTimeConverted), "minutes");
+      var firstTimeConverted = moment(startTime, "hh:mm")
+      // var minutes = moment.duration(startTime, 'minutes');
+      var diffTime = moment().diff(moment(firstTimeConverted));
+      console.log(diffTime);
       var Remainder = diffTime % frequency;
       var minutesAway = frequency - Remainder;
+      console.log(frequency);
+      console.log(Remainder);
+      console.log(minutesAway);
 
       var nextArrivalTrain = moment().add(minutesAway, "minutes");
       var nextArrival = moment(nextArrivalTrain).format("HH:mm A")
+
 
       // Change the HTML
       $("#trainschedule > tbody").append("<tr><td>" + train + "</td><td>" + destination + "</td><td>" +

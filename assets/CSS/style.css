@@ -4,7 +4,7 @@ body {
 }
 
 .container {
-	font-family: 'Acme' !important;
+	font-family: 'Acme' , san-serif !important;
 	color: white !important;
 }
 

@@ -16,6 +16,7 @@
     // Note remember to create these same variables in Firebase!
     var train = "";
     var destination = "";
+    var firstTrainTime = "";
     var frequency = "";
 
     // Click Button changes what is stored in firebase
@@ -27,38 +28,71 @@
       // Get inputs
       train = $("#train-input").val().trim();
       destination = $("#destination-input").val().trim();
+      firstTrainTime = moment($("#time-input").val().trim(), "HH:mm").format("X")
       frequency = $("#frequency-input").val().trim();
 
-     
-      debugger;
-
-      // Change what is saved in firebase
-      database.ref().set({
-        train: train,
+      // Creates local "temporary" object for holding train data
+      var newTrain = {
+      	train: train,
         destination: destination,
-        frequency: frequency
-      });
+        firstTrainTime: firstTrainTime,
+        frequency: frequency,
+        dateAdded: firebase.database.ServerValue.TIMESTAMP
+    };
+
+     
+      // debugger;
+
+        // Uploads train data to the database
+      database.ref().push(newTrain);
+
+      // console.log(firstTrainTime);
+
+      alert("Train successfully added");
+
+      // Clears all of the text-boxes
+      $("#train-input").val("");
+      $("#destination-input").val("");
+      $("#time-input").val("");
+      $("#frequency-input").val("");
     });
 
 
     // Firebase is always watching for changes to the data.
     // When changes occurs it will print them to console and html
-    database.ref().on("value", function(snapshot) {
+    database.ref().on("child_added", function(childSnapshot, prevChildKey) {
 
-      // Print the initial data to the console.
-      console.log(snapshot.val());
+    	var train = childSnapshot.val().train;
+    	var destination = childSnapshot.val().destination;
+    	var firstTrainTime = childSnapshot.val().firstTrainTime
+    	var frequency = childSnapshot.val().frequency;
+      
+      
 
       // Log the value of the various properties
-      console.log(snapshot.val().train);
-      console.log(snapshot.val().destination);
-      console.log(snapshot.val().frequency);
+      console.log(childSnapshot.val().train);
+      console.log(childSnapshot.val().destination);
+      console.log(childSnapshot.val().frequency);
+
+      //calculating next train time
+      var startTime = moment.unix(firstTrainTime).format("HH:mm");
+      console.log("First Train is at " + startTime);
+      var firstTimeConverted = moment(firstTrainTime, "hh:mm")
+      var diffTime = moment().diff(moment(firstTimeConverted), "minutes");
+      var Remainder = diffTime % frequency;
+      var minutesAway = frequency - Remainder;
+
+      var nextArrivalTrain = moment().add(minutesAway, "minutes");
+      var nextArrival = moment(nextArrivalTrain).format("HH:mm A")
 
       // Change the HTML
-      $("#train-input").append(snapshot.val().train);
-      $("#destination-input").append(snapshot.val().destination);
-      $("#frequency-input").append(snapshot.val().frequency);
-
+      $("#trainschedule > tbody").append("<tr><td>" + train + "</td><td>" + destination + "</td><td>" +
+		  frequency + "</td><td>" + nextArrival + "</td><td>" + minutesAway + "</td></tr>");
+	
+  	},
       // If any errors are experienced, log them to console.
-    }, function(errorObject) {
+     function(errorObject) {
       console.log("The read failed: " + errorObject.code);
+ 	 
+
     });

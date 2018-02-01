@@ -1,0 +1,40 @@
+body {
+	background: url(../images/subway_underground_train_bus_stop_47801.jpg);
+
+}
+
+.container {
+	font-family: 'Acme' !important;
+	color: white !important;
+}
+
+.panel {
+	opacity: 0.6;
+	background-color: white !important;
+	color:  #01164f !important;
+}
+.jumbotron {
+	background-color: #01164f !important;
+	opacity: 0.8;
+}
+
+.panel-heading {
+	background-color: #01164f !important;
+	color: white !important;
+
+}
+
+h4.panel-title {
+	font-weight: bold !important;
+}
+
+#click-button {
+	background-color: #01164f !important;
+	color: white !important;
+
+}
+
+div > input {
+	color: #01164f !important;
+	font-weight: bold; 
+}

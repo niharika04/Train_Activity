@@ -79,16 +79,19 @@
       console.log("First Train is at " + startTime);
       var firstTimeConverted = moment(startTime, "hh:mm")
       // var minutes = moment.duration(startTime, 'minutes');
-      var diffTime = moment().diff(moment(firstTimeConverted));
+      var currentTime = moment();
+      console.log("Current time : " + moment(currentTime).format("hh:mm"))
+      var diffTime = moment().diff(moment(firstTimeConverted, "minutes"));
+
       console.log(diffTime);
-      var Remainder = diffTime % frequency;
-      var minutesAway = frequency - Remainder;
+      var remainder = diffTime % frequency;
+      var minutesAway = frequency - remainder;
       console.log(frequency);
-      console.log(Remainder);
+      console.log(remainder);
       console.log(minutesAway);
 
       var nextArrivalTrain = moment().add(minutesAway, "minutes");
-      var nextArrival = moment(nextArrivalTrain).format("HH:mm A")
+      var nextArrival = moment(nextArrivalTrain).format("HH:mm")
 
 
       // Change the HTML

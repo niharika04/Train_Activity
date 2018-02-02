@@ -70,25 +70,26 @@
       
 
       // Log the value of the various properties
-      console.log(childSnapshot.val().train);
-      console.log(childSnapshot.val().destination);
-      console.log("Frequency: " + childSnapshot.val().frequency);
+      // console.log(childSnapshot.val().train);
+      // console.log(childSnapshot.val().destination);
+      // console.log("Frequency: " + childSnapshot.val().frequency);
 
       //calculating next train time
       var startTime = moment.unix(firstTrainTime).format("HH:mm");
-      console.log("First Train is at " + startTime);
+      // console.log("First Train is at " + startTime);
       var firstTimeConverted = moment(startTime, "hh:mm")
       // var minutes = moment.duration(startTime, 'minutes');
       var currentTime = moment();
-      console.log("Current time : " + moment(currentTime).format("hh:mm"))
+      // console.log("Current time : " + moment(currentTime).format("hh:mm"))
+      
       var diffTime = moment().diff(moment(firstTimeConverted, "minutes"));
 
-      console.log(diffTime);
+      // console.log(diffTime);
       var remainder = diffTime % frequency;
       var minutesAway = frequency - remainder;
-      console.log(frequency);
-      console.log(remainder);
-      console.log(minutesAway);
+      // console.log(frequency);
+      // console.log(remainder);
+      // console.log(minutesAway);
 
       var nextArrivalTrain = moment().add(minutesAway, "minutes");
       var nextArrival = moment(nextArrivalTrain).format("HH:mm")
